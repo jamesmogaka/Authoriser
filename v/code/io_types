@@ -1,0 +1,78 @@
+import {basic_value, } from '../../../schema/v/code/schema';
+    
+//
+//This is the data required to plot a simple text input.
+export type text = {
+    type: 'text';
+    //
+    //The Physical length and number of characters a text input could allow
+    length?: number;
+    //
+    //To add a datalist that will be associated with the given input for autocomplete sugesstions
+    list?: Array<basic_value>;
+};
+//
+//A number input
+//The name int was forced since number is alredy a javascript keyword
+export type int = {
+    type: 'number';
+    //
+    //When dealing with input of type number we have the option to specify a range in which we
+    //can collect the numbers from
+    //
+    //Upper bound of the range
+    max?: number;
+    //
+    //The lower bound of the range
+    min?: number;
+};
+//
+//Date ,datetime and a time inputs all have simmilar attributes. The only difference is in the format
+//of the values one supplies
+//In the case of a date the value supplied for the max, min and value should be a string of the format
+//YYYY-MM-DD
+//If the input is of type datetime-local the format for the string supplied is YYYY-MM-DDTHH:MM:SS.sss
+//whereby the seconds and mili seconds are optional
+//
+//Finnaly for time the format of the string is HH:MM:SS
+export type date_time = {
+    type: 'date' | 'datetime-local' | 'time';
+    //
+    //The earliest selectable date in the input field
+    min?: string;
+    //
+    //Defines the latest selectable date
+    max?: string;
+};
+//
+//THis are the various elements which are to be used to model choices.
+export type choice = {
+    type: 'select' | 'checkbox' | 'radio';
+    //
+    //The list of options that can be selected
+    options: Array<basic_value>;
+    //
+    //Indicates whether the user can select multiple options
+    multiple: boolean;
+};
+//
+//TODO: choice
+//
+//We will use an intersection type in ts to express the fact that all io_types share some common
+//attributes among themselves and use a discriminant union to express the differences in the individual
+//ios
+//TODO: Evaluate if the utility type to extract all discriminants will break down in the case bellow
+//The bit am not suer is how the discriminant_key utility type will handle this
+export type io_type = {
+    //
+    //The initial value of the io
+    value?: basic_value;
+} & (
+    | text
+    | int
+    | date_time
+    | choice
+    | {
+          type: 'color' | 'range' | 'email' | 'password' | 'hidden';
+      }
+);

@@ -1,0 +1,67 @@
+/*
+Set the body width and height to occupy the entire screen
+Position all its elements in the center
+*/
+body,
+html {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/*
+set form width to half the body width
+Arrange the items in a column and place them centrally
+*/
+form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+/*
+set the fieldset width to 100% of the form
+arrange the items in a column
+*/
+fieldset {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+/*Make the radio buttons occupy more space vertically*/
+.radio {
+  padding: 0.5rem 0;
+}
+
+/*
+Arrnge the label items not in the radio class in a row
+
+*/
+/* Add these properties to your existing label:not(.radio) style */
+label:not(.radio) {
+  display: flex;
+  flex-direction: row;
+  margin-left: 5%;
+  align-items: baseline;
+  gap: 1rem;
+  width: 100%;
+}
+
+/* Add these new rules to control the widths of spans and inputs */
+label:not(.radio) > span:first-child {
+  width: 30%;
+}
+
+label:not(.radio) > input {
+  width: 30%; /* Adjust width as needed for your inputs */
+}
+
+/* Modify your error class */
+.error {
+  color: #ef4444;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  width: 30%;
+  margin-left: 1rem;
+}
