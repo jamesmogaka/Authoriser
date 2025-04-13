@@ -1,2 +1,7 @@
 #  ignore all JavaScript files
 *.js
+
+#Ignore all other versions
+v_2025_02_04/
+v_2025_02_05/
+v_2025_02_10/
