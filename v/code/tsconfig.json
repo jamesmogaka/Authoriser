@@ -1,4 +1,8 @@
 {
 	"extends": "../../../schema/v/code/tsconfig.json",
-	"compilerOptions": {}
+	"compilerOptions": {},
+	"exclude": [
+		" ../../../outlook/v/code/crud.ts",
+		"../../../outlook/v/code/module.ts",
+	]		
 }

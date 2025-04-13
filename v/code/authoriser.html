@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Registration Form using Mutall Principles</title>
         <link rel="stylesheet" href="authoriser.css"/>
+
         <script type="module">
             import {authoriser} from "./authoriser.js";
             //
@@ -12,7 +13,9 @@
             document.addEventListener("DOMContentLoaded", () => {
                 //
                 //Create an instance of the auth class
-                new authoriser();
+                const iauth = new authoriser();
+                //
+                window.iauth = iauth;
 
             });
             
@@ -20,28 +23,24 @@
     </head>
     <body>
         <form id="auth">
-        
             <fieldset id="login">
                 <legend>
                     <label class="radio">
-                        <input type="radio" name="choice" value="login"/>
+                        <input type="radio" name="choice" value="login" checked/>
                         Login
                     </label>
                 </legend>
-
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>User Name</span>
                     <input name="name" type="text" />
                     <span class="error"></span>
                 </label>
-
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Password</span>
                     <input name="password"  type="password" />
                     <span class="error"></span>
-                </label>e
+                </label>
             </fieldset>
-
             <fieldset id="sign_up">
                 <legend>
                     <label class="radio">
@@ -49,22 +48,22 @@
                         Sign up
                     </label>
                 </legend>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>User Name</span>
                     <input name="name" type="text"/>
                     <span class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Email</span>
                     <input name="email" type="email"/>
                     <span  class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Password</span>
                     <input name="password" type="password" />
                     <span class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Confirm Password</span>
                     <input name="confirm_password" type="password" />
                     <span class="error"></span>
@@ -78,12 +77,12 @@
                         Forgot Password
                     </label>
                 </legend>
-                <label data-io_type="input">
+                <label data-io_key="input">
                 <span>User Name</span>
                     <input name="name" type="text" />
                     <span class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Email</span>
                     <input name="email" type="email" />
                     <span class="error"></span>
@@ -96,31 +95,29 @@
                         Change Password
                     </label>
                 </legend>
-                <label data-io_type="input">
+                <label data-io_key="input">
                 <span>User Name</span>
                     <input name="name" type="text" />
                     <span class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Old Password</span>
                     <input name="old_password" type="password" />
                     <span class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>New Password</span>
                     <input name="new_password" type="password" />
                     <span class="error"></span>
                 </label>
-                <label data-io_type="input">
+                <label data-io_key="input">
                     <span>Confirm Password</span>
                     <input name="confirm_password" type="password" />
                     <span class="error"></span>
                 </label>
             </fieldset>
-            
-            <button type="submit" id="submit"
-                onclick="iauth.authorise(event)">Submit
-                </button>
+
+            <button type="submit" id="submit" onclick="iauth.authorise(event)">Submit</button>
         </form>
     </body>
 </html>

@@ -1,67 +1,209 @@
-/*
-Set the body width and height to occupy the entire screen
-Position all its elements in the center
-*/
-body,
-html {
+/* Base styles for the entire page */
+body, html {
   width: 100%;
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f7fa;
+}
+
+body {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+ 
+
+}
+
+/* Navigation buttons at the top */
+div:first-of-type {
+  width: 50%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1%;
+}
+
+div:first-of-type button {
+  padding: 0.5% 1%;
+  background-color: #e5e7eb;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.2s;
+}
+
+div:first-of-type button:hover {
+  background-color: #d1d5db;
+}
+
+/* Popup styling */
+.popup {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
   align-items: center;
   justify-content: center;
 }
-/*
-set form width to half the body width
-Arrange the items in a column and place them centrally
-*/
+
+.popup-content {
+  background-color: #fefefe;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+}
+
+.popup-content p {
+  margin-bottom: 20px;
+  font-size: 14px;
+  color: #333;
+}
+
+.popup-content #go {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  transition: background-color 0.3s ease;
+}
+
+.popup-content #go:hover {
+  background-color: #45a049;
+}
+
+/* Form styling */
 form {
   width: 50%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: white;
+  padding: 1.5%;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
-/*
-set the fieldset width to 100% of the form
-arrange the items in a column
-*/
+
+/* Fieldset styling */
 fieldset {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.75%;
+  padding: 1%;
+  margin-bottom: 1%;
+  border: 1px solid #e5e7eb;
+  border-radius: 6px;
 }
-/*Make the radio buttons occupy more space vertically*/
+
+/* Legend and radio buttons */
+legend {
+  padding: 0 0.5%;
+}
+
 .radio {
-  padding: 0.5rem 0;
+  font-weight: bold;
+  cursor: pointer;
 }
 
-/*
-Arrnge the label items not in the radio class in a row
+.radio input {
+  cursor: pointer;
+}
 
-*/
-/* Add these properties to your existing label:not(.radio) style */
+/* Form labels and inputs */
 label:not(.radio) {
   display: flex;
   flex-direction: row;
   margin-left: 5%;
   align-items: baseline;
-  gap: 1rem;
-  width: 100%;
+  gap: 1%;
+  width: 90%;
+  margin-bottom: 0.5%;
 }
 
-/* Add these new rules to control the widths of spans and inputs */
 label:not(.radio) > span:first-child {
   width: 30%;
+  font-size: 14px;
+  color: #4b5563;
 }
 
 label:not(.radio) > input {
-  width: 30%; /* Adjust width as needed for your inputs */
+  width: 40%;
+  padding: 0.5%;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  transition: border-color 0.2s;
 }
 
-/* Modify your error class */
+label:not(.radio) > input:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+/* Error message styling */
 .error {
   color: #ef4444;
-  font-size: 0.75rem;
-  margin-top: 0.25rem;
-  width: 30%;
-  margin-left: 1rem;
+  font-size: 12px;
+  width: 25%;
+  margin-left: 0.5%;
+}
+
+output{
+  display: none;
+}
+
+/* Submit button */
+#submit {
+  padding: 0.75% 2%;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-top: 1%;
+  transition: background-color 0.2s;
+}
+
+#submit:hover {
+  background-color: #2563eb;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  form, div:first-of-type {
+    width: 90%;
+  }
+  
+  label:not(.radio) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  label:not(.radio) > span:first-child {
+    width: 100%;
+    margin-bottom: 0.25%;
+  }
+  
+  label:not(.radio) > input {
+    width: 100%;
+  }
+  
+  .error {
+    width: 100%;
+    margin-left: 0;
+    margin-top: 0.25%;
+  }
 }
