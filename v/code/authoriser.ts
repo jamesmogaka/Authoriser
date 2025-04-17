@@ -9,6 +9,7 @@ import { myalert } from "../../../schema/v/code/mutall.js";
 import { user } from "../../../outlook/v/code/app.js";
 import { layout } from "../../../schema/v/code/questionnaire.js";
 import { io, io_parent } from "./io.js";
+import { dialog } from "./dialog.js";
 //
 // Define the IAutoriser interface
 export interface Iauthoriser {
@@ -32,7 +33,7 @@ export type user_interface = {
 // The authoriser class is a page that is used to authorise a user to allow them access to
 // mutall applications.
 // It allows the user to login, register, or reset their password.
-export class authoriser extends view {
+export class authoriser extends dialog<user | undefined> {
 	public user?: user;
 	//
 	//Key for saving a user to the local storage
@@ -41,14 +42,21 @@ export class authoriser extends view {
 	//The sections of an authoriser: login, forgot, etc
 	public sections?: mymap<section_id, section>;
 	//
-	//The url of the authoriser page
-	public url: string = "./authoriser.html";
-	//
 	// The css refers to the button you want to hook your authoriser to
-	constructor(public parent?: view) {
+	constructor(parent?: view) {
+		//
+		//The url pointing to the registration form
+		const url: string = "./authoriser.html";
+		//
+		//The section on your main page on where to anchor the dialog
+		//NB:The dialog by default will be shown on the document body
+		const anchor: HTMLElement | undefined = undefined;
+		//
+		//How to present the dialog
+		const modal: boolean = true;
 		//
 		//Initialize the mother page using the authorizer.html
-		super(parent);
+		super(url, anchor, modal, parent);
 	}
 	//
 	// Get the sections of the authoriser page
@@ -62,7 +70,7 @@ export class authoriser extends view {
 		//
 		// Add the event listener for submit
 		submit.onclick = (evt: Event) => this.authorise(evt);
-		///
+		//
 		// Get the radio buttons for the sections
 		const radios: NodeListOf<HTMLInputElement> =
 			this.document.querySelectorAll('input[type="radio"]');
@@ -73,6 +81,31 @@ export class authoriser extends view {
 		});
 	}
 	//
+	// When the form data is submitted on the page do the authorisation
+	async authorise(event: Event): Promise<void> {
+		//
+		// Prevent the default form submission
+		event.preventDefault();
+
+		//
+		// Perform the authorisation based on the selected operation
+		const user: user | undefined = await this.section.authorise();
+		//
+		//Do not update the last user if the authorisaton failed
+		if (!user) return;
+		//
+		//Authorisation succeeded; update the loca storage
+		this.user = user;
+		const userData = {
+			name: user.name,
+			pk: user.pk,
+		};
+		window.localStorage.setItem(
+			authoriser.user_key,
+			JSON.stringify(userData)
+		);
+	}
+	//
 	// Create the sections from the identified fieldsets in the html
 	get_sections(): mymap<section_id, section> {
 		//
@@ -80,7 +113,7 @@ export class authoriser extends view {
 		const list: NodeListOf<Element> =
 			this.document.querySelectorAll("fieldset[id]");
 		//
-		//Convert the nodelist to an array of elements; an array has more processing o\
+		//Convert the nodelist to an array of elements; an array has more processing
 		//options than a nodelist
 		const elements: Array<Element> = Array.from(list);
 		//
@@ -188,23 +221,35 @@ export class authoriser extends view {
 		// Reload the page
 		window.location.reload();
 	}
-
 	/*
-  // Implementation of the abstract 'check' method required by quiz<user>
-  async check(): Promise<boolean> {
-    // Delegate validation to the current section
-    return await this.section.check_inputs();
-  }
+	// Implementation of the abstract 'check' method required by quiz<user>
+	async check(): Promise<boolean> {
+		// Delegate validation to the current section
+		return await this.section.check_inputs();
+	}
 
-  // Implementation of the abstract 'get_result' method required by quiz<user>
-  async get_result(): Promise<user | undefined> {
-    return this.user_prop;
-  }
+	// Implementation of the abstract 'get_result' method required by quiz<user>
+	async get_result(): Promise<user | undefined> {
+		return this.user_prop;
+	}
 
-  async show_panels(): Promise<void> {
-    this.set_sections();
-  }
-  */
+	async show_panels(): Promise<void> {
+		this.set_sections();
+	}
+*/
+	//
+	//Since for the registration form we have no values to fill on the form do nothing
+	async populate(): Promise<void> {}
+	//
+	//Read values from the form
+	async read(): Promise<Error | null | undefined> {
+		return;
+	}
+	//
+	//Proceed to do the authentification requested by the user
+	async execute(input: undefined): Promise<"Ok" | Error> {
+		return "Ok";
+	}
 }
 //
 // Base abstract class for all sections of the authoriser page
@@ -299,12 +344,12 @@ export abstract class section extends io_parent {
 		//is done as close to teh error source as possible
 		if (!this.check_inputs()) return;
 		//
-		//Use teh username to fetch user details from the regostragion database
+		//Use the username to fetch user details from the registration database
 		// -- mutall_user;
 		const user: user_interface | undefined = await this.get_user(
 			this.name.value
 		);
-		// //
+		//
 		//Check the user. Discontinue if invalid
 		if (!this.check_user(user)) return undefined;
 		//
